@@ -260,8 +260,7 @@ def main():
                     window["-REGION-"].update(region_list)
                     region_loop = True
             except Exception as e:
-                text  = window["-CONSOLEMSG-"]
-                window["-CONSOLEMSG-"].update(text.get()+str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e))
+                window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e)+"\n", append=True )
         
         if event == 'List Queues':
             try:
@@ -271,13 +270,11 @@ def main():
                 if not url:
                     data=[]
                     window["-TABLE-"].update(data)
-                    text = window["-CONSOLEMSG-"]
-                    window["-CONSOLEMSG-"].update(text.get()+ str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ": No Queues in this region")
+                    window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ": No Queues in this region\n", append=True)
                 else:
                     window["-QUEUENAME-"].update(url)
             except Exception as e:
-                text  = window["-CONSOLEMSG-"]
-                window["-CONSOLEMSG-"].update(text.get()+str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e) +" /Check Connection Detail")
+                window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e) +" /Check Connection Detail\n", append=True)
         
         if event == '-QUEUENAME-':
             try:
@@ -291,15 +288,13 @@ def main():
                              resp['Attributes']['ApproximateNumberOfMessagesDelayed']])
                 window["-TABLE-"].update(data)
             except Exception as e:
-                text  = window["-CONSOLEMSG-"]
-                window["-CONSOLEMSG-"].update(text.get()+str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e))
+                window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e)+"\n", append=True)
         
         if event == '-RECEIVE-':
             window['-RECEIVEMSG-'].update(str(values['-RECEIVE-']))
             
         if event == '-WRITE-':
-            text  = window["-CONSOLEMSG-"]
-            window["-CONSOLEMSG-"].update(text.get()+str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(values['-WRITE-']))
+            window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(values['-WRITE-'])+"\n", append=True)
             #window.refresh
         
         if event == 'Load':
@@ -310,8 +305,7 @@ def main():
                         text = f.read()
                         window["-QUEUEMSG-"].update(text)
                 except Exception as e:
-                    text  = window["-CONSOLEMSG-"]
-                    window["-CONSOLEMSG-"].update(text.get()+str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e))
+                    window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e)+"\n", append=True)
         if event == 'Send Multi Msgs':
             try:
                 counter = int(values['-ITERATE-'])
@@ -321,8 +315,7 @@ def main():
                                        REGION_NAME,values["-QUEUENAME-"][0], 
                                        counter,delay, window,),  daemon=True).start()
             except Exception as e:
-                text  = window["-CONSOLEMSG-"]
-                window["-CONSOLEMSG-"].update(text.get()+str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e))
+                window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e)+"\n", append=True)
         
         if event == 'Send Once':
             try:
@@ -331,8 +324,7 @@ def main():
                                        REGION_NAME,values["-QUEUENAME-"][0], 
                                        1,0, window,),  daemon=True).start()
             except Exception as e:
-                text  = window["-CONSOLEMSG-"]
-                window["-CONSOLEMSG-"].update(text.get()+str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e))
+                window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e)+"\n", append=True)
 
         
         if event == 'Receive Msg':
@@ -341,8 +333,7 @@ def main():
                                  args=(REGION_NAME,values["-QUEUENAME-"][0], 
                                        1,0, window,),  daemon=True).start()
             except Exception as e:
-                text  = window["-CONSOLEMSG-"]
-                window["-CONSOLEMSG-"].update(text.get()+str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e))
+                window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e)+"\n", append=True)
             
         if event == 'Save Output':
             try:
@@ -355,8 +346,7 @@ def main():
         
         
         if event == 'Clear Output':
-            text  = ""
-            window["-CONSOLEMSG-"].update(text)
+            window["-CONSOLEMSG-"].update("")
     window.close()
 
 if __name__ == '__main__':
