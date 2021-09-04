@@ -148,10 +148,10 @@ def send_message(msg, REGION_NAME, queue_url):
         }
     )
     CLIENT = session.client('sqs', config=REGION_CONFIG)
-    message = {"test": msg}    
+    #message = {"test": msg}    
     response = CLIENT.send_message(
         QueueUrl=queue_url,
-        MessageBody=json.dumps(message)
+        MessageBody=json.dumps(msg)
     )
     return response
 
@@ -291,7 +291,8 @@ def main():
                 window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e)+"\n", append=True)
         
         if event == '-RECEIVE-':
-            window['-RECEIVEMSG-'].update(str(values['-RECEIVE-']))
+            
+            window['-RECEIVEMSG-'].update(values['-RECEIVE-'])
             
         if event == '-WRITE-':
             window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(values['-WRITE-'])+"\n", append=True)
@@ -306,6 +307,7 @@ def main():
                         window["-QUEUEMSG-"].update(text)
                 except Exception as e:
                     window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e)+"\n", append=True)
+        
         if event == 'Send Multi Msgs':
             try:
                 counter = int(values['-ITERATE-'])
