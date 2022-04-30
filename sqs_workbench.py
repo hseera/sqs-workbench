@@ -68,15 +68,21 @@ delete_message =[
     ]
 
 create_queue =[
-    [sg.Text("Not Yet Implemented")]
+    [sg.Text("Existing Queues")],
+    [sg.Listbox(values=[], enable_events=True, size=(112, 5), key="-CREATEQUEUENAME-")],
+    [sg.Text("Enter Queue Name"),sg.Input(key='-CREATEQNAME-', size=(30, 1)),sg.Text("Attr: DelaySecond"),sg.Input(key='-DELAYSEC-', size=(10, 1)),sg.Text("Attr: RetentionPeriod"),sg.Input(key='-RETPERIOD-', size=(16, 1))],
+    [sg.Text("Attr: ReceiveMessageWaitTimeSeconds"),sg.Input(key='-WAITTIME-', size=(10, 1)),sg.Text("Attr: VisibilityTimeout"),sg.Input(key='-TIMEOUT-', size=(10, 1)),sg.Text("Attr: MaximumMessageSize"),sg.Input(key='-SIZE-', size=(10, 1))],
+    [sg.B("Create Queue",size=(12, 1))]
     ]
 
 update_queue =[
-    [sg.Text("Not Yet Implemented")]
+    [sg.Text("Existing Queues")],
+    [sg.Listbox(values=[], enable_events=True, size=(112, 5), key="-UPDATEQNAME-")]
     ]
 
 delete_queue =[
-    [sg.Text("Not Yet Implemented")]
+    [sg.Text("Existing Queues")],
+    [sg.Listbox(values=[], enable_events=True, size=(112, 5), key="-DELETEQNAME-")]
     ]
 
 sqs_layout = [
@@ -279,6 +285,9 @@ def main():
             try:
                 REGION_NAME=values['-REGION-'][0]
                 window["-QUEUENAME-"].update([])
+                window["-CREATEQUEUENAME-"].update([])
+                window["-UPDATEQNAME-"].update([])
+                window["-DELETEQNAME-"].update([])
                 url = get_queue_url(REGION_NAME,window)
                 if not url:
                     data=[]
@@ -286,6 +295,9 @@ def main():
                     window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ": No Queues in this region\n", append=True)
                 else:
                     window["-QUEUENAME-"].update(url)
+                    window["-CREATEQUEUENAME-"].update(url)
+                    window["-UPDATEQNAME-"].update(url)
+                    window["-DELETEQNAME-"].update(url)
             except Exception as e:
                 window["-CONSOLEMSG-"].update(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +": "+str(e) +" /Check Connection Detail\n", append=True)
         
